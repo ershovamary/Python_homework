@@ -1,0 +1,20 @@
+#Classwork from 7 December 2017
+#открывает текст, убирает всё ненужное, создаёт список слов
+def clearer(filename):
+    bad_symb = '1234567890 ,.,?!\"_/'
+    with open(filename, "r", encoding="utf-8") as f:
+        text = f.read()
+##        for line in s:
+##            line.join(' ')
+##        text = ''.join(s)
+        words = text.split()
+        words2 = []
+        for word in words:
+            words2.append(word.strip(bad_symb))
+            
+##        for word in words:
+##            for symb in word:
+##                if symb in bad_symb:
+##                    word.replace(symb,'')
+        return words2
+print(clearer(input('Write the pass to your file: ')))
