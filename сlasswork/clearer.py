@@ -2,7 +2,7 @@
 #открывает текст, убирает всё ненужное, приводит всё к нижнему регистру,
 #создаёт список слов
 def clearer(filename):
-    bad_symb = '1234567890 ,.,?!\"_/'
+    bad_symb = '1234567890 ,.,?!\"_/():'
     with open(filename, "r", encoding="utf-8") as f:
         text = f.read()
 ##        for line in s:
@@ -19,4 +19,3 @@ def clearer(filename):
 ##                if symb in bad_symb:
 ##                    word.replace(symb,'')
         return words2
-clearer(input())
