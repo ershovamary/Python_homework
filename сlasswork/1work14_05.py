@@ -4,6 +4,8 @@
 ## во скольки файлах есть d, а если в каталоге с r есть файлы с d - вывести
 
 ## root: I am the string and I am the path
+## dirs: I am the list of directions
+## files: And I am the list of files
 
 import os
 
