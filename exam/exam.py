@@ -18,27 +18,50 @@ def read_file(filename):
 def re_search(text,l):
     new_s = ''
     for s in l:
-        match = re.search('<meta content="(.*?)" name="' + s + '">', text)
+        match = re.search(r'<meta content="(.*?)" name="' + s + '">', text)
         if match:
             new_s += '\t' + match.group(1)
     return new_s
 
-def write_file():
-    with open('news.csv',"w",encoding="utf-8") as f:
-        f.write('Название файла' + '\t' + 'Автор' + '\t' + 'Дата создания текста' + '\t' + 'Заголовок' + '\n')
+def write_file(n):
+    if n == 1:
+        with open('news.csv',"w",encoding="utf-8") as f:
+            f.write('Название файла' + '\t' + 'Автор' + '\t' + 'Дата создания текста' + '\t' + 'Заголовок' + '\n')
+    if n == 2:
+        with open('news.csv',"a",encoding="utf-8") as f:
+            f.write('Имя файла' + '\t' + 'Найденное имя' + '\t' + 'Кол-во вхождений' + '\n')
 
-def append_file(name, s):
+def find_names(text):
+    d = {}
+    all_names = re.findall(r'</ana>[А-ЯЁ].*?</w>', text)
+    for name in all_names:
+        l = re.findall(name, text)
+        name = name[6:-4]
+        d[name] = len(l)
+    return d
+
+def append_file_1(name, s):
     if not os.path.isfile('news.csv'):
-        write_file()
+        write_file(1)
     with open('news.csv',"a",encoding="utf-8") as f:
         f.write(name + s + '\n')
+
+def append_file_2(name, d):
+    with open('news.csv',"a",encoding="utf-8") as f:
+        for k in d:
+            f.write(name + '\t' + k + '\t' + str(d[k]) + '\n')
 
 def main():
     l = ['author','created','header']
     path = './news'
     names = os.listdir(path)
     for f in names:
-        append_file(f, re_search(read_file(os.path.join(path,f)),l))
+        text = read_file(os.path.join(path,f))
+        append_file_1(f, re_search(text,l))
+    write_file(2)
+    for f in names:
+        text = read_file(os.path.join(path,f))
+        append_file_2(f, find_names(text))
 
 if __name__ == "__main__":
     main()
